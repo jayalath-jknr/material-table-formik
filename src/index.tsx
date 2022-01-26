@@ -30,6 +30,7 @@ import {
   DialogContentText,
   Grid,
   GridProps,
+  TextField,
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -203,7 +204,15 @@ function FormikDialog<RowData extends IData>({
       if (column.render && data) {
         return column.render(data, 'row');
       } else {
-        return <div>{field.value}</div>;
+        return(<TextField
+          fullWidth={true}
+          label={column.title}
+          variant="outlined"
+          value={field.value}
+          InputProps={{
+            readOnly: true,
+          }}
+        />)
       }
     }
     const onChange = (newValue: string | number | boolean) =>
@@ -287,9 +296,9 @@ function FormikDialog<RowData extends IData>({
                                 xs={12}
                                 {...column.gridProps}
                               >
-                                <label htmlFor={column.field as string}>
+                                {/* <label htmlFor={column.field as string}> //remove label
                                   {column.title}
-                                </label>
+                                </label> */}
                                 <br />
                                 {getEditCell(column, field, meta, setValues)}
                               </Grid>
@@ -312,7 +321,8 @@ function FormikDialog<RowData extends IData>({
                         {localization.cancelTooltip}
                       </Button>
                       <Button
-                        color="primary"
+                        variant="contained"
+                        color="secondary"
                         autoFocus={true}
                         type="submit"
                         disabled={isSubmitting}
